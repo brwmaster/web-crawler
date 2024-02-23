@@ -1,4 +1,4 @@
-const { normalizeURL, getURLsFromHTML } = require('./crawl.js')
+const { normalizeURL, getURLsFromHTML, sortPagesByFrequency } = require('./crawl.js')
 const { test, expect } = require('@jest/globals')
 
 test('normalizeURL protocol', () => {
@@ -62,3 +62,18 @@ test('find all urls in html', () => {
   ]
   expect(actual).toEqual(expected)
 });
+
+test('sort urls by frequency', () => {
+  const pages = {
+    'blog.boot.dev/path': 1,
+    'blog.boot.dev/path2': 2,
+    'blog.boot.dev/path3': 3
+  }
+  const actual = sortPagesByFrequency(pages)
+  const expected = [
+    { url: 'blog.boot.dev/path3', count: 3 },
+    { url: 'blog.boot.dev/path2', count: 2 },
+    { url: 'blog.boot.dev/path', count: 1 }
+  ]
+  expect(actual).toEqual(expected)
+})
